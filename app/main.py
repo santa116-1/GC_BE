@@ -15,7 +15,7 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/ships/", response_model=list[schemas.Ship])
+@app.get("/api/ships/", response_model=list[schemas.Ship])
 def get_ships(db: Session = Depends(get_db)):
     ships = db.query(models.Ship).all()
     return ships
