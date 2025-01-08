@@ -36,5 +36,5 @@ def update_propulsion_data(session: Session, num_entries: int = 100):
 if __name__ == "__main__":
     while True:
         with SessionLocal() as session:
-            update_propulsion_data(session, num_entries=100)  # Adjust the number of records to update
-        time.sleep(10)  # Wait for 10 seconds before updating again
+            update_propulsion_data(session, num_entries=100)
+        time.sleep(10)
