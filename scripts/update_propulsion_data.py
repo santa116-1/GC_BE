@@ -11,8 +11,8 @@ def update_propulsion_data(session: Session, num_entries: int = 100):
         
         if propulsion:
             # Apply small variations to each value to simulate realistic changes
-            propulsion.latitude += round(random.uniform(-0.0001, 0.0001), 6)
-            propulsion.longitude += round(random.uniform(-0.0001, 0.0001), 6)
+            propulsion.latitude += round(random.uniform(-0.001, 0.001), 5)
+            propulsion.longitude += round(random.uniform(-0.001, 0.001), 5)
             propulsion.speed += round(random.uniform(-0.05, 0.05), 2)
             propulsion.direction += round(random.uniform(-0.05, 0.05), 2)
             propulsion.roll += round(random.uniform(-0.05, 0.05), 2)
