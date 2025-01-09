@@ -3,7 +3,7 @@ import websockets
 import json
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
-from app.models import Propulsion, Commnication
+from app.models import Propulsion, Commnication, Telemetry
 
 # Fetch Propulsion Data by ship_id from the Database
 def get_propulsion_data_by_id(session: Session, ship_id: int):
@@ -34,6 +34,34 @@ def get_communication_data(session: Session, ship_id: int):
             "wifi_rssi": record.wifi_rssi,
             "gps_status": record.gps_status,
             "gps_quality": record.gps_quality,
+        }
+        for record in data
+    ]
+
+def get_telemetry_data(session: Session, ship_id: int):
+    data = session.query(Telemetry).filter(Telemetry.ship_id == ship_id).all()
+    return [
+        {
+            "id": record.id,
+            "ship_id": record.ship_id,
+            "thruster_output": record.thruster_output,
+            "thruster_rotation_speed": record.thruster_rotation_speed,
+            "thruster_voltage": record.thruster_voltage,
+            "thruster_current": record.thruster_current,
+            "battery_1_remaining": record.battery_1_remaining,
+            "battery_1_voltage": record.battery_1_voltage,
+            "battery_1_charging_status": record.battery_1_charging_status,
+            "battery_2_remaining": record.battery_2_remaining,
+            "battery_2_voltage": record.battery_2_voltage,
+            "battery_2_charging_status": record.battery_2_charging_status,
+            "battery_3_remaining": record.battery_3_remaining,
+            "battery_3_voltage": record.battery_3_voltage,
+            "battery_3_charging_status": record.battery_3_charging_status,
+            "pcu_voltage": record.pcu_voltage,
+            "pcu_current": record.pcu_current,
+            "solar_voltage": record.solar_voltage,
+            "solar_current": record.solar_current,
+            "body_temperature": record.body_temperature,
         }
         for record in data
     ]
