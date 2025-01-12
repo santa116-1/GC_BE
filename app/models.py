@@ -1,12 +1,25 @@
-from sqlalchemy import Column, Integer, String, Date, Float, Boolean
+from sqlalchemy import Column, Integer, String, Date, Float, Boolean, Enum
+from enum import Enum as PyEnum
 from .database import Base
 
+# Role Enum class
+class UserRole(PyEnum):
+    Administrator = "Administrator"
+    Operator = "Operator"
+    Viewer = "Viewer"
+
+# User model
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
+    role = Column(Enum(UserRole), nullable=False)
+
+    can_view_all_users = Column(Boolean, default=False)
+    can_view_all_data = Column(Boolean, default=False)
+    can_send_commands = Column(Boolean, default=False)
     
 class Ship(Base):
     __tablename__ = "ships"
