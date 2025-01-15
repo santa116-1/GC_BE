@@ -1,13 +1,13 @@
 # seed_telemetry.py
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
-from app.models import Telemetry  # Make sure this is your correct model import
+from app.models import Telemetry
 from faker import Faker
 import random
 
 fake = Faker()
 
-def seed_telemetry(session: Session, num_entries: int = 10):
+def seed_telemetry(session: Session, num_entries: int = 100):
     """Seed Telemetry data with random values."""
     
     for i in range(1, num_entries + 1):

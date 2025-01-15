@@ -5,7 +5,6 @@ from app.models import UserRole, User
 from passlib.hash import bcrypt
 
 def seed_users(session: Session):
-    # Define user roles and their permissions
     roles_permissions = {
         UserRole.Administrator: {
             "can_view_all_users": True,
@@ -24,7 +23,6 @@ def seed_users(session: Session):
         },
     }
 
-    # Users to seed
     users = [
         {
             "email": "admin@example.com",

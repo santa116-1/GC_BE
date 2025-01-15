@@ -1,10 +1,10 @@
 # seed_ship_system.py
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
-from app.models import ShipSystem  # Ensure this is the correct import for your model
+from app.models import ShipSystem
 import random
 
-def seed_ship_system(session: Session, num_entries: int = 10):
+def seed_ship_system(session: Session, num_entries: int = 100):
     """Seed ShipSystem data with random values."""
     
     for i in range(1, num_entries + 1):

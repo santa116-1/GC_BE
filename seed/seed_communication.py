@@ -1,13 +1,13 @@
 # seed_communications.py
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
-from app.models import Commnication  # Make sure this is your correct model import
+from app.models import Commnication 
 from faker import Faker
 import random
 
 fake = Faker()
 
-def seed_communications(session: Session, num_entries: int = 10):
+def seed_communications(session: Session, num_entries: int = 100):
     """Seed Communication data with random values."""
     
     for i in range(1, num_entries + 1):

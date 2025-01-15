@@ -1,10 +1,10 @@
 # seed_ship_mission.py
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
-from app.models import ShipMission  # Ensure this is the correct import for your model
+from app.models import ShipMission
 import random
 
-def seed_ship_mission(session: Session, num_entries: int = 10):
+def seed_ship_mission(session: Session, num_entries: int = 100):
     """Seed ShipMission data with random values."""
     
     for i in range(1, num_entries + 1):
