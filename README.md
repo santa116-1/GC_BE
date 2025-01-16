@@ -135,7 +135,7 @@ docker compose down
 
    python -m scripts.update_communication_data
    python -m scripts.update_mission_data
-   python -m scripts.update_propulsion
+   python -m scripts.update_propulsion_data
    python -m scripts.update_system_data
    python -m scripts.update_telemetry_data
 
