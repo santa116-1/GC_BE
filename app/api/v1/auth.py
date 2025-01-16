@@ -17,7 +17,18 @@ def login_for_access_token(form_data: UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     access_token_expires = timedelta(minutes=30)
-    access_token = create_access_token(data={"sub": user.email, "id": user.id, "email": user.email, "view_users": user.can_view_all_users, "view_data": user.can_view_all_data,"send_commands": user.can_send_commands }, expires_delta=access_token_expires)
+    access_token = create_access_token(
+        data={
+            "sub": user.email, 
+            "id": user.id, 
+            "email": user.email, 
+            "permission": {
+                "view_users": user.can_view_all_users,
+                "view_data": user.can_view_all_data,
+                "send_commands": user.can_send_commands
+            },
+            }, 
+        expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/register", response_model=Token)
