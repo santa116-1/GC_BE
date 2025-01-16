@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=mysql+pymysql://root:@mysql_db:3306/gc_database
+      - DATABASE_URL=mysql+pymysql://root:@mysql-db:3306/gc_database
     depends_on:
       - mysql_db
 
@@ -16,7 +16,7 @@ services:
     container_name: websocket-server
     command: ["python", "-m", "app.websocket_server"]
     environment:
-      - DATABASE_URL=mysql+pymysql://root:@mysql_db:3306/gc_database
+      - DATABASE_URL=mysql+pymysql://root:@mysql-db:3306/gc_database
     depends_on:
       - mysql_db
     ports:
