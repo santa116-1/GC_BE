@@ -24,6 +24,7 @@ services:
 
   mysql_db:
     image: mysql:8.0
+    restart: always
     container_name: mysql-db
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -31,14 +32,14 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
 
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysql-db"]
       interval: 30s
       timeout: 10s 
       retries: 3
       start_period: 10s
       
 volumes:
-  mysql_data:
+  mysql-data:

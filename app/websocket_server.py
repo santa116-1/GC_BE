@@ -1,11 +1,26 @@
+from jose import jwt
 import asyncio
 import websockets
 import json
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
+from urllib.parse import urlparse, parse_qs
 from app.models import Propulsion, Commnication, Telemetry, ShipSystem, ShipMission
+# from app.core.security import verify_token
+from app.core.config import SECRET_KEY, ALGORITHM
 
-# Fetch Propulsion Data by ship_id from the Database
+def verify_token(token: str):
+    try:
+        # Decode the token and check if it's valid
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return True  # If no exception is raised, token is valid
+    except jwt.ExpiredSignatureError:
+        print("⚠️ Token has expired")
+        return False
+    except jwt.InvalidTokenError:
+        print("⚠️ Invalid token")
+        return False
+
 def get_propulsion_data_by_id(session: Session, ship_id: int):
     data = session.query(Propulsion).filter(Propulsion.ship_id == ship_id).all()
     return [
@@ -96,19 +111,31 @@ def get_mission_data(session: Session, ship_id: int):
         for record in data
     ]
 
-async def handle_connection(websocket):
+async def handle_connection(websocket): 
     print("✅ Client connected")
     try:
         async for message in websocket:
             data = json.loads(message)
             ship_id = data.get('ship_id')
             data_type = data.get('data_type')
-            print("✅✅✅", data_type)
+            access_token = data.get('access_token')
+            
+            if access_token is None:
+                await websocket.send("Unauthorized: No token provided")
+                await websocket.close()
+                return
+            
+            user_data = verify_token(access_token)
+            if not user_data:
+                await websocket.send("Unauthorized: Invalid token")
+                await websocket.close()
+                return
+            print(f"✅ User authenticated: {user_data}")
+            
             if ship_id is None or data_type is None:
                 await websocket.send(json.dumps({"error": "Missing ship_id or data_type"}))
                 continue
 
-            # Start periodic data updates every 10 seconds
             try:
                 while True:
                     session = SessionLocal()
